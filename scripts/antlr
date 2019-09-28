@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# Generates the grammar with the right package. Run from SOURCE_ROOT
+
+antlr4 "$(pwd)/src/main/antlr4/com/supergrecko/diamond/codegen/Diamond.g4" -package com.supergrecko.diamond.codegen
