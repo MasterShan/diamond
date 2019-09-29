@@ -1,4 +1,4 @@
-// Generated from /mnt/d/Projects/Kotlin/diamond/src/main/antlr4/com/supergrecko/diamond/codegen/DiamondLexer.g4 by ANTLR 4.7.2
+// Generated from /mnt/d/Projects/Kotlin/diamond/src/main/antlr4/com/supergrecko/diamond/codegen/Diamond.g4 by ANTLR 4.7.2
 package com.supergrecko.diamond.codegen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -16,13 +16,61 @@ public class DiamondBaseListener implements DiamondListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterR(DiamondParser.RContext ctx) { }
+	@Override public void enterProgram(DiamondParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitR(DiamondParser.RContext ctx) { }
+	@Override public void exitProgram(DiamondParser.ProgramContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEntryDeclaration(DiamondParser.EntryDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEntryDeclaration(DiamondParser.EntryDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTopLevelDeclaration(DiamondParser.TopLevelDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTopLevelDeclaration(DiamondParser.TopLevelDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStructDeclaration(DiamondParser.StructDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStructDeclaration(DiamondParser.StructDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGenericType(DiamondParser.GenericTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGenericType(DiamondParser.GenericTypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
