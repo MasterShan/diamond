@@ -21,9 +21,12 @@ class ArgumentParser(private val command: Command, private val argv: List<String
                 parseOption(arg.substring(2))
             } else {
                 args.add(arg)
+                next()
             }
+        }
 
-            next()
+        if (args.size != command.arguments) {
+            throw CompilerException("Command '${command.name}' expects ${command.arguments} arguments. ${args.size} passed.", false)
         }
 
         return CommandEvent(args, opts)

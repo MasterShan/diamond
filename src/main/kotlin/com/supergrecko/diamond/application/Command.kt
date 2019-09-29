@@ -6,13 +6,14 @@ import com.supergrecko.diamond.exceptions.CompilerException
  * Represents a command for the command line
  *
  * @property name
- * @property required
+ * @property arguments
  * @property executor
  * @property options
  */
 class Command {
     var name: String = "unnamed"
-    var required: Int = 0
+    var arguments: Int = 0
+    // The lambda which is ran when the event is triggered
     private var executor: (event: CommandEvent) -> Unit = { throw CompilerException("Missing internal implementation of the $name command.", false) }
     val options: MutableList<Option> = mutableListOf()
 

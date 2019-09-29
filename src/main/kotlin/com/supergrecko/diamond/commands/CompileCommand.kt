@@ -5,13 +5,11 @@ import com.supergrecko.diamond.dsl.command
 
 fun compileCommand(label: String) = command {
     name = label
+    arguments = 1
 
-    options(
-        Option("arg", 1)
-    )
+    options(Option("target", 3), Option("with", 1))
 
     execute {
-        println(it.args)
-        println(it.options)
+        println(it)
     }
 }
