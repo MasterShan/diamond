@@ -1,6 +1,3 @@
 package com.supergrecko.diamond.application
 
-class Option {
-    var name: String = "default"
-    var size: Int = 0
-}
+data class Option(val name: String, val size: Int)

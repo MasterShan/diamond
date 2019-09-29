@@ -30,7 +30,7 @@ class Application(private val args: List<String>) {
         val command = commands.firstOrNull { args.firstOrNull()?.equals(it.name) ?: false }
             ?: throw CompilerException("Command '${args.first()}' was not found. Run 'diamond help' to view the command line manual.", false)
 
-        val event = ArgumentParser(command, args.drop(0)).parse()
+        val event = ArgumentParser(command, args.drop(1)).parse()
         command.dispatch(event)
     }
 }
