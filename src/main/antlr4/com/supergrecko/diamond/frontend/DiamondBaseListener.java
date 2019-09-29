@@ -1,5 +1,5 @@
-// Generated from /mnt/d/Projects/Kotlin/diamond/src/main/antlr4/com/supergrecko/diamond/codegen/Diamond.g4 by ANTLR 4.7.2
-package com.supergrecko.diamond.codegen;
+// Generated from /mnt/d/Projects/Kotlin/Diamond/src/main/antlr4/com/supergrecko/diamond/frontend/Diamond.g4 by ANTLR 4.7.2
+package com.supergrecko.diamond.frontend;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
