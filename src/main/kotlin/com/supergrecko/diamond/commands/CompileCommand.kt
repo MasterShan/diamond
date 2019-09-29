@@ -1,10 +1,11 @@
 package com.supergrecko.diamond.commands
 
-import com.supergrecko.diamond.application.command
-import com.supergrecko.diamond.arguments.SingleArg
+import com.supergrecko.diamond.dsl.command
 
 fun compileCommand(label: String) = command {
     name = label
 
-    expect(SingleArg)
+    execute {
+        println("compile")
+    }
 }

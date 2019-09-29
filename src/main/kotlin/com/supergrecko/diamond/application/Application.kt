@@ -12,7 +12,7 @@ class Application(private val args: List<String>) {
 
     fun run() {
         try {
-            route()
+            dispatch()
         } catch (ex: CompilerException) {
             // Exit the process if it wasn't a warning
             if (ex.warning) {
@@ -25,11 +25,12 @@ class Application(private val args: List<String>) {
         }
     }
 
-    private fun route() {
+    private fun dispatch() {
         // Find first command which name is equal to the action, if passed
         val command = commands.firstOrNull { args.firstOrNull()?.equals(it.name) ?: false }
             ?: throw CompilerException("Command '${args.first()}' was not found. Run 'diamond help' to view the command line manual.", false)
 
-        println(command)
+        val event = ArgumentParser(command, args.drop(0)).parse()
+        command.dispatch(event)
     }
 }
