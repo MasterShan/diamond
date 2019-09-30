@@ -2,7 +2,7 @@ package com.supergrecko.diamond.application
 
 import com.supergrecko.diamond.exceptions.CompilerException
 
-class ArgumentParser(private val command: Command, private val argv: List<String>) {
+class ArgumentParser(private val command: Command, private val argv: List<String>, private val app: Application) {
     private val args: MutableList<String> = mutableListOf()
     private val opts: MutableList<Options> = mutableListOf()
     private var index: Int = 0
@@ -29,7 +29,7 @@ class ArgumentParser(private val command: Command, private val argv: List<String
             throw CompilerException("Command '${command.name}' expects ${command.arguments} arguments. ${args.size} passed.", false)
         }
 
-        return CommandEvent(args, opts)
+        return CommandEvent(args, opts, app)
     }
 
     private fun parseOption(name: String) {
