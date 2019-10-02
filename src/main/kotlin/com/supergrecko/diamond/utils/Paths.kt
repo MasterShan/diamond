@@ -46,10 +46,10 @@ data class DirectoryPath(override val path: Path) : FilesystemPath {
     }
 }
 
-fun pathFromString(path: String): FilesystemPath {
+inline fun <reified T : FilesystemPath> pathFromString(path: String): T {
     val p = File(path)
 
-    return if (p.isFile())
-        FilePath(p.toPath()) else
-        DirectoryPath(p.toPath())
+    return if (p.isFile)
+        FilePath(p.toPath()) as T else
+        DirectoryPath(p.toPath()) as T
 }

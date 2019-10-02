@@ -9,7 +9,7 @@ import com.supergrecko.diamond.utils.pathFromString
 data class CompilationConfig(
         val main: FilePath,
         val include: List<DirectoryPath>,
-        val output: FilePath,
+        val output: DirectoryPath,
         val target: Targets
 )
 
@@ -18,7 +18,7 @@ fun createConfig(main: String, include: List<String>, output: String, target: St
             main = verifyPath(main) as FilePath,
             // Map each path's directory
             include = include.map { pathFromString(it) as DirectoryPath },
-            output = pathFromString(output) as FilePath,
+            output = pathFromString(output),
             target = when (target) {
                 "llvm" -> Targets.LLVM
                 else -> Targets.LLVM
@@ -27,7 +27,7 @@ fun createConfig(main: String, include: List<String>, output: String, target: St
 }
 
 private fun verifyPath(path: String): FilesystemPath {
-    val p = pathFromString(path)
+    val p = pathFromString<FilesystemPath>(path)
 
     if (!p.exists()) {
         throw CompilerException("File or directory at path ${p.absolute} does not exist.", false)
