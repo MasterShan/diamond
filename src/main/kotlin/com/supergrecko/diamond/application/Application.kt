@@ -1,22 +1,20 @@
 package com.supergrecko.diamond.application
 
+import com.supergrecko.diamond.annotations.AppCommand
 import com.supergrecko.diamond.exceptions.CompilerException
-import com.supergrecko.diamond.commands.compileCommand
-import com.supergrecko.diamond.commands.versionCommand
+import org.reflections.Reflections
+import org.reflections.scanners.MethodAnnotationsScanner
 
 class Application(private val args: List<String>) {
     val version: String = "0.0.0-alpha"
 
-    val commands: List<Command> = listOf(
-            compileCommand("compile"),
-            versionCommand("version")
-    )
+    val commands: MutableList<Command> = mutableListOf()
 
     private val exceptions: MutableList<CompilerException> = mutableListOf()
 
     fun run() {
         try {
-            dispatch()
+            loadCommands()
         } catch (ex: CompilerException) {
             // Exit the process if it wasn't a warning
             if (ex.warning) {
@@ -26,6 +24,16 @@ class Application(private val args: List<String>) {
             }
         } finally {
             exceptions.forEach { it.print() }
+        }
+    }
+
+    private fun loadCommands() {
+        // Reflectively get all @AppCommands
+        val ref = Reflections("com.supergrecko.diamond", MethodAnnotationsScanner())
+        val found = ref.getMethodsAnnotatedWith(AppCommand::class.java)
+
+        found.forEach {
+            commands.add(it.invoke(it) as Command)
         }
     }
 

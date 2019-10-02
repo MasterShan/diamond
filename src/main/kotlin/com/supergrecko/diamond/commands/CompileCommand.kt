@@ -1,10 +1,12 @@
 package com.supergrecko.diamond.commands
 
+import com.supergrecko.diamond.annotations.AppCommand
 import com.supergrecko.diamond.application.Option
 import com.supergrecko.diamond.dsl.command
 
-fun compileCommand(label: String) = command {
-    name = label
+@AppCommand
+fun compileCommand() = command {
+    name = "compile"
     description = "Compile a .dm file."
     arguments = 1
 
