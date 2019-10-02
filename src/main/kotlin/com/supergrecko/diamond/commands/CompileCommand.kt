@@ -7,10 +7,10 @@ import com.supergrecko.diamond.dsl.command
 @AppCommand
 fun compileCommand() = command {
     name = "compile"
-    description = "Compile a .dm file."
+    description = "Compile a .dm file with the specified compiler options."
     arguments = 1
 
-    options(Option("target", 3), Option("with", 1))
+    options(Option("target", 1), Option("i", 1))
 
     execute {
         println(it)

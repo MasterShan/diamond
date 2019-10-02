@@ -6,7 +6,7 @@ import com.supergrecko.diamond.dsl.command
 @AppCommand
 fun versionCommand() = command {
     name = "version"
-    description = "Get the compiler version."
+    description = "Get the installed compiler version."
     arguments = 0
 
     execute {

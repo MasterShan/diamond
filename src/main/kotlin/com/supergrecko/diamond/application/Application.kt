@@ -15,6 +15,7 @@ class Application(private val args: List<String>) {
     fun run() {
         try {
             loadCommands()
+            dispatch()
         } catch (ex: CompilerException) {
             // Exit the process if it wasn't a warning
             if (ex.warning) {
