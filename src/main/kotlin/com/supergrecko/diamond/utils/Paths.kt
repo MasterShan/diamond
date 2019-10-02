@@ -1,9 +1,11 @@
 package com.supergrecko.diamond.utils
 
+import java.io.File
 import java.nio.file.Path
 
 interface FilesystemPath {
     val path: Path
+    val absolute: Path
 
     fun create(): Boolean
     fun delete(): Boolean
@@ -11,6 +13,8 @@ interface FilesystemPath {
 }
 
 data class FilePath(override val path: Path) : FilesystemPath {
+    override val absolute = path.toAbsolutePath()
+
     override fun exists(): Boolean = path.toFile().exists()
     override fun create(): Boolean {
         return if (!exists())
@@ -26,6 +30,8 @@ data class FilePath(override val path: Path) : FilesystemPath {
 }
 
 data class DirectoryPath(override val path: Path) : FilesystemPath {
+    override val absolute = path.toAbsolutePath()
+
     override fun exists(): Boolean = path.toFile().exists()
     override fun create(): Boolean {
         return if (!exists())
@@ -38,4 +44,12 @@ data class DirectoryPath(override val path: Path) : FilesystemPath {
             path.toFile().deleteRecursively() else
             false
     }
+}
+
+fun pathFromString(path: String): FilesystemPath {
+    val p = File(path)
+
+    return if (p.isFile())
+        FilePath(p.toPath()) else
+        DirectoryPath(p.toPath())
 }
