@@ -1,7 +1,12 @@
 package com.supergrecko.diamond.utils
 
 import java.io.File
+import java.io.IOException
+import java.nio.file.FileVisitResult
+import java.nio.file.FileVisitor
+import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.attribute.BasicFileAttributes
 
 /**
  * Represent a file path in a file system
@@ -49,6 +54,26 @@ data class DirectoryPath(override val path: Path) : FilesystemPath {
         return if (exists())
             path.toFile().deleteRecursively() else
             false
+    }
+
+    fun toFileList(): List<FilePath> {
+        val files = mutableListOf<FilePath>()
+
+        Files.walkFileTree(absolute, object : FileVisitor<Path> {
+            override fun postVisitDirectory(p0: Path?, p1: IOException?) = FileVisitResult.CONTINUE
+            override fun visitFileFailed(p0: Path?, p1: IOException?) = FileVisitResult.CONTINUE
+            override fun preVisitDirectory(p0: Path?, p1: BasicFileAttributes?) = FileVisitResult.CONTINUE
+
+            override fun visitFile(path: Path?, attr: BasicFileAttributes?): FileVisitResult {
+                if (path!!.endsWith(".dm")) {
+                    files.add(FilePath(path))
+                }
+
+                return FileVisitResult.CONTINUE
+            }
+        })
+
+        return files
     }
 }
 

@@ -2,6 +2,7 @@ package com.supergrecko.diamond.commands
 
 import com.supergrecko.diamond.annotations.AppCommand
 import com.supergrecko.diamond.application.Option
+import com.supergrecko.diamond.compiler.Compiler
 import com.supergrecko.diamond.compiler.createCompilerConfig
 import com.supergrecko.diamond.dsl.command
 
@@ -16,6 +17,6 @@ fun compileCommand() = command {
     execute {
         val config = createCompilerConfig(it)
 
-        println(config)
+        Compiler(config)
     }
 }
