@@ -7,18 +7,19 @@ import org.reflections.scanners.MethodAnnotationsScanner
 
 class Application(private val args: List<String>) {
     val version: String = "0.0.0-alpha"
-
     val commands: MutableList<Command> = mutableListOf()
-
     private val exceptions: MutableList<CompilerException> = mutableListOf()
+
+    init {
+        loadCommands()
+    }
 
     fun run() {
         try {
-            loadCommands()
             dispatch()
         } catch (ex: CompilerException) {
             // Exit the process if it wasn't a warning
-            if (ex.warning) {
+            if (ex.silent) {
                 exceptions.add(ex)
             } else {
                 return ex.print()

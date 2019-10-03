@@ -2,7 +2,7 @@ package com.supergrecko.diamond.commands
 
 import com.supergrecko.diamond.annotations.AppCommand
 import com.supergrecko.diamond.application.Option
-import com.supergrecko.diamond.compiler.createConfig
+import com.supergrecko.diamond.compiler.createCompilerConfig
 import com.supergrecko.diamond.dsl.command
 
 @AppCommand
@@ -14,13 +14,7 @@ fun compileCommand() = command {
     options(Option("target", 1), Option("i", 1), Option("o", 1))
 
     execute {
-        // TODO: cleanup code
-        val config = createConfig(
-                main = it.args.first(),
-                include = it.all("i"),
-                output = it.first("o") ?: "./output",
-                target = it.first("target") ?: "llvm"
-        )
+        val config = createCompilerConfig(it)
 
         println(config)
     }

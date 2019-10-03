@@ -13,6 +13,7 @@ class ArgumentParser(private val command: Command, private val argv: List<String
     private fun atEnd() = index >= argv.size
 
     fun parse(): CommandEvent {
+        // Iterate over each cli arg
         while (!atEnd()) {
             val arg = get()
 
@@ -32,6 +33,11 @@ class ArgumentParser(private val command: Command, private val argv: List<String
         return CommandEvent(args, opts, app)
     }
 
+    /**
+     * Parse a cli option
+     *
+     * @param name
+     */
     private fun parseOption(name: String) {
         // Get the option if it exists for the command
         val option = command.options.firstOrNull { it.name == name }

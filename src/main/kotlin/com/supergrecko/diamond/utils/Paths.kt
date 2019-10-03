@@ -3,6 +3,12 @@ package com.supergrecko.diamond.utils
 import java.io.File
 import java.nio.file.Path
 
+/**
+ * Represent a file path in a file system
+ *
+ * @property path
+ * @property absolute
+ */
 interface FilesystemPath {
     val path: Path
     val absolute: Path
