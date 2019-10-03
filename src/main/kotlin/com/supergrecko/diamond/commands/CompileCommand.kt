@@ -16,11 +16,10 @@ fun compileCommand() = command {
     execute {
         // TODO: cleanup code
         val config = createConfig(
-                it.args.first(),
-                it.getOption("i").map { e -> e.values.first() },
-                // Todo: Change default name
-                it.getOption("o").firstOrNull()?.values?.first() ?: "./output",
-                it.getOption("target").firstOrNull()?.values?.first() ?: "llvm"
+                main = it.args.first(),
+                include = it.all("i"),
+                output = it.first("o") ?: "./output",
+                target = it.first("target") ?: "llvm"
         )
 
         println(config)

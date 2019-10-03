@@ -10,6 +10,6 @@ fun versionCommand() = command {
     arguments = 0
 
     execute {
-        it.println("Diamond Compiler v${it.app.version}")
+        println("Diamond Compiler v${it.app.version}")
     }
 }
