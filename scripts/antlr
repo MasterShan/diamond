@@ -2,4 +2,4 @@
 
 # Generates the grammar with the right package. Run from SOURCE_ROOT
 
-antlr4 "$(pwd)/src/main/antlr4/com/supergrecko/diamond/frontend/Diamond.g4" -package com.supergrecko.diamond.frontend
+antlr4 "$(pwd)/src/main/antlr4/com/supergrecko/diamond/frontend/Diamond.g4" -visitor -package com.supergrecko.diamond.frontend
