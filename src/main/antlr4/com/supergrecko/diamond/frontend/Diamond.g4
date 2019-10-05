@@ -1,21 +1,78 @@
 grammar Diamond;
 
-program : topLevelDeclaration;
-
-entryDeclaration : ENTRY LBRACE RBRACE;
-
-topLevelDeclaration : entryDeclaration
-    | structDeclaration
+program
+    : namespaceDeclaration?
     ;
 
-structDeclaration : STRUCT name=ID (LARR generics += ID (COMMA generics += ID) RARR)? LBRACE RBRACE;
+// Declarations
+namespaceDeclaration
+    : NAMESPACE id=ID
+    ;
 
-genericType : ID LARR genericType RARR;
+entryDeclaration
+    : ENTRY LBRACE body+=statement* RBRACE
+    ;
+
+// Groups
+
+expression
+    : LPAREN expr=expression RPAREN                                 # groupingExpression
+    | name=ID                                                       # variableExpression
+    | THIS                                                          # thisExpression
+    | value=STRING                                                  # stringExpression
+    | value=DOUBLE                                                  # doubleExpression
+    | value=INT                                                     # intExpression
+    | NULL                                                          # nullExpression
+    | value=(TRUE | FALSE)                                          # booleanExpression
+    | callable=expression LPAREN RPAREN                             # eed
+    | left=expression operator=(STAR | SLASH) right=expression      # multiplicativeExpression
+    | left=expression operator=(PLUS | MINUS) right=expression      # additiveExpression
+    | left=expression operator=(AND | OR) right=expression          # binaryExpression
+    | left=expression operator=ID right=expression                  # infixExpression
+    | left=expression operator=(EQUAL | NOTEQUAL) right=expression  # equalityExpression
+    ;
+
+statement
+    : mutStatement
+    | constStatement
+    | expression
+    ;
+
+primaryDeclaration
+    : entryDeclaration
+    ;
+
+// Statements
+mutStatement
+    : MUT id=ID COLON type=typeAnnotation EQUAL value=expression
+    ;
+
+constStatement
+    : CONST id=ID COLON type=typeAnnotation EQUAL value=expression
+    ;
+
+breakStatement
+    : BREAK
+    ;
+
+continueStatement
+    : CONTINUE
+    ;
+
+expressionStatement
+    : expr=expression
+    ;
+
+// Helpers
+typeAnnotation
+    : id=ID (LARR generic=typeAnnotation RARR)?
+    ;
 
 // Reserved Keywords
 BREAK : 'break';
 CONST : 'const';
 CONTINUE : 'continue';
+CONTRACT : 'contract';
 DEFINE : 'define';
 DERIVES : 'derives';
 ELSE : 'else';
@@ -24,15 +81,13 @@ EXTERN : 'extern';
 FUN : 'fun';
 GUARD : 'guard';
 IF : 'if';
-IMPORT : 'import';
-LINK : 'link';
 LOOP : 'loop';
 MUT : 'mut';
+NAMESPACE : 'namespace';
 RETURN : 'return';
 STATIC : 'static';
 STRUCT : 'struct';
 THIS : 'this';
-TYPEDEF : 'typedef';
 WHEN : 'when';
 YIELD : 'yield';
 
