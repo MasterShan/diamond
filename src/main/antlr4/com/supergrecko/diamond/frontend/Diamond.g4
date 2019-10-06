@@ -1,7 +1,7 @@
 grammar Diamond;
 
 program
-    : namespaceDeclaration?
+    : namespaceDeclaration? declarations+=primaryDeclaration*
     ;
 
 // Declarations
@@ -10,39 +10,65 @@ namespaceDeclaration
     ;
 
 entryDeclaration
-    : ENTRY LBRACE body+=statement* RBRACE
-    ;
-
-// Groups
-
-expression
-    : LPAREN expr=expression RPAREN                                 # groupingExpression
-    | name=ID                                                       # variableExpression
-    | THIS                                                          # thisExpression
-    | value=STRING                                                  # stringExpression
-    | value=DOUBLE                                                  # doubleExpression
-    | value=INT                                                     # intExpression
-    | NULL                                                          # nullExpression
-    | value=(TRUE | FALSE)                                          # booleanExpression
-    | callable=expression LPAREN RPAREN                             # eed
-    | left=expression operator=(STAR | SLASH) right=expression      # multiplicativeExpression
-    | left=expression operator=(PLUS | MINUS) right=expression      # additiveExpression
-    | left=expression operator=(AND | OR) right=expression          # binaryExpression
-    | left=expression operator=ID right=expression                  # infixExpression
-    | left=expression operator=(EQUAL | NOTEQUAL) right=expression  # equalityExpression
-    ;
-
-statement
-    : mutStatement
-    | constStatement
-    | expression
+    : ENTRY LBRACE body+=genericStatement* RBRACE
     ;
 
 primaryDeclaration
     : entryDeclaration
+    | functionDeclaration
+    ;
+
+functionDeclaration
+    : FUN name=ID typeParameters? functionParameters LBRACE body+=genericStatement* RBRACE
+    ;
+
+// Groups
+expression
+    : LPAREN expr=expression RPAREN                                                     # groupingExpression
+    | name=ID                                                                           # variableExpression
+    | THIS                                                                              # thisExpression
+    | value=STRING                                                                      # stringExpression
+    | value=DOUBLE                                                                      # doubleExpression
+    | value=INT                                                                         # intExpression
+    | NULL                                                                              # nullExpression
+    | value=(TRUE | FALSE)                                                              # booleanExpression
+    | callable=expression typeArguments? functionArguments                              # callExpression
+    | left=expression operator=(STAR | SLASH) right=expression                          # multiplicativeExpression
+    | left=expression operator=(PLUS | MINUS) right=expression                          # additiveExpression
+    | left=expression operator=(AND | OR) right=expression                              # binaryExpression
+    | left=expression operator=ID right=expression                                      # infixExpression
+    | left=expression operator=(EQUAL | NOTEQUAL) right=expression                      # equalityExpression
+    | FUN typeParameters? functionParameters LBRACE body+=genericStatement* RBRACE      # functionExpression
+    ;
+
+functionArguments
+    : LPAREN (args+=expression (COMMA args+=expression)*)? RPAREN
+    ;
+
+typeArguments
+    : LARR args+=ID (COMMA args+=ID)* RARR
+    ;
+
+functionParameters
+    : LPAREN (params+=ID (COMMA params+=ID)*)? RPAREN
+    ;
+
+typeParameters
+    : LARR params+=ID (COMMA params+=ID)* LPAREN
+    ;
+
+genericStatement
+    : mutStatement
+    | constStatement
+    | assignmentStatement
+    | expressionStatement
     ;
 
 // Statements
+assignmentStatement
+    : expression EQUAL expression
+    ;
+
 mutStatement
     : MUT id=ID COLON type=typeAnnotation EQUAL value=expression
     ;
