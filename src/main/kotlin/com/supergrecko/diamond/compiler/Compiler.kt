@@ -1,15 +1,17 @@
 package com.supergrecko.diamond.compiler
 
+import com.supergrecko.diamond.frontend.DiamondLexer
+import com.supergrecko.diamond.frontend.DiamondParser
 import com.supergrecko.diamond.utils.FilePath
-import com.supergrecko.diamond.utils.listFilesRecursive
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
 
 class Compiler(private val config: CompilationConfig) {
-    private val main = config.main
     private val include: MutableList<FilePath> = mutableListOf()
 
     init {
-        config.include.forEach {
-            println(listFilesRecursive(it))
-        }
+        val stream = CharStreams.fromFileName(config.main.absolute.toString())
+        val lexer = DiamondLexer(stream)
+        val parser = DiamondParser(CommonTokenStream(lexer))
     }
 }
