@@ -1,29 +1,21 @@
 package com.supergrecko.diamond.ast
 
-sealed class SyntaxTree {
-    sealed class Literal : SyntaxTree() {
-        data class Int(val value: kotlin.Int) : SyntaxTree()
-        data class Double(val value: kotlin.Double) : SyntaxTree()
-        data class String(val value: kotlin.String) : SyntaxTree()
-        data class Boolean(val value: kotlin.Boolean) : SyntaxTree()
-        data class Id(val value: kotlin.String) : SyntaxTree()
-    }
+sealed class SyntaxTree
 
-    sealed class Expression : SyntaxTree() {
-        data class Grouping(val inner: SyntaxTree) : SyntaxTree()
-        data class Variable(val name: SyntaxTree) : SyntaxTree()
-        data class Call(val subject: SyntaxTree, val types: List<SyntaxTree>, val args: List<SyntaxTree>) : SyntaxTree()
-        data class Multiplicative(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
-        data class Additive(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
-        data class Binary(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
-        data class Infix(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
-        data class Equality(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
+data class IntLiteral(val value: Int) : SyntaxTree()
+data class DoubleLiteral(val value:Double) : SyntaxTree()
+data class StringLiteral(val value: String) : SyntaxTree()
+data class BooleanLiteral(val value: Boolean) : SyntaxTree()
+data class Identifier(val value: String) : SyntaxTree()
 
-        class This : SyntaxTree()
-    }
+data class GroupingExpression(val inner: SyntaxTree) : SyntaxTree()
+data class VariableExpression(val name: SyntaxTree) : SyntaxTree()
+data class CallExpression(val subject: SyntaxTree, val types: List<SyntaxTree>, val args: List<SyntaxTree>) : SyntaxTree()
+data class MultiplicativeExpression(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
+data class AdditiveExpression(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
+data class BinaryExpression(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
+data class InfixExpression(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
+data class EqualityExpression(val left: SyntaxTree, val operator: SyntaxTree, val right: SyntaxTree) : SyntaxTree()
 
-    sealed class Declaration : SyntaxTree() {
-        data class Namespace(val name: String) : SyntaxTree()
-        data class Entry(val body: List<SyntaxTree>) : SyntaxTree()
-    }
-}
+data class NamespaceDeclaration(val name: String) : SyntaxTree()
+data class EntryDeclaration(val body: List<SyntaxTree>) : SyntaxTree()
