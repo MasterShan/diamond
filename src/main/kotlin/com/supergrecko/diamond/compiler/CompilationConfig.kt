@@ -61,7 +61,7 @@ private fun verifyPath(path: String): FilesystemPath {
     val p = pathFromString<FilesystemPath>(path)
 
     if (!p.exists()) {
-        throw CompilerException("File or directory at path ${p.absolute} does not exist.", false)
+        throw CompilerException("CompilerException", "File or directory at path ${p.absolute} does not exist.", false)
     }
 
     return p

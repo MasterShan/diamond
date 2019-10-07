@@ -2,15 +2,13 @@ grammar Diamond;
 
 @lexer::members {
     public void emit(Token token) {
+        Token t = _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex, getCharIndex()-1, _tokenStartLine, _tokenStartCharPositionInLine);
         switch (token.getType()) {
             case UNKNOWN: {
-                Token t = _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex, getCharIndex()-1, _tokenStartLine, _tokenStartCharPositionInLine);
-
                 ANTLRErrorListener listener = getErrorListenerDispatch();
 		        listener.syntaxError(this, t, _tokenStartLine, _tokenStartCharPositionInLine, null, null);
             }
             default: {
-                Token t = _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex, getCharIndex()-1, _tokenStartLine, _tokenStartCharPositionInLine);
                 super.emit(t);
             }
         }

@@ -27,7 +27,7 @@ class ArgumentParser(private val command: Command, private val argv: List<String
         }
 
         if (args.size != command.arguments) {
-            throw CompilerException("Command '${command.name}' expects ${command.arguments} arguments. ${args.size} passed.", false)
+            throw CompilerException("CommandLineException", "Command '${command.name}' expects ${command.arguments} arguments. ${args.size} passed.", false)
         }
 
         return CommandEvent(args, opts, app)
@@ -41,7 +41,7 @@ class ArgumentParser(private val command: Command, private val argv: List<String
     private fun parseOption(name: String) {
         // Get the option if it exists for the command
         val option = command.options.firstOrNull { it.name == name }
-            ?: throw CompilerException("Option '--$name' is not a valid option for ${command.name}.", false)
+            ?: throw CompilerException("CommandLineException", "Option '--$name' is not a valid option for ${command.name}.", false)
 
         val matches = mutableListOf<String>()
 
@@ -49,7 +49,7 @@ class ArgumentParser(private val command: Command, private val argv: List<String
         for (i in 0..option.size) {
             if (atEnd()) {
                 // Not enough arguments were passed
-                throw CompilerException("Option '--$name' expected ${option.size} parameters. $i parameters were passed.", false)
+                throw CompilerException("CommandLineExceptiomn", "Option '--$name' expected ${option.size} parameters. $i parameters were passed.", false)
             }
 
             matches.add(get())

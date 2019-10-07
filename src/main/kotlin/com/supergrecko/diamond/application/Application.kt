@@ -42,7 +42,7 @@ class Application(private val args: List<String>) {
     private fun dispatch() {
         // Find first command which name is equal to the action, if passed
         val command = commands.firstOrNull { args.firstOrNull()?.equals(it.name) ?: false }
-                ?: throw CompilerException("Command '${args.first()}' was not found. Run 'diamond help' to view the command line manual.", false)
+                ?: throw CompilerException("CommandLineException", "Command '${args.first()}' was not found. Run 'diamond help' to view the command line manual.", false)
 
         val event = ArgumentParser(command, args.drop(1), this).parse()
         command.dispatch(event)
