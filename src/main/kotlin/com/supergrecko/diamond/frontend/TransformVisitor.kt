@@ -6,7 +6,7 @@ class TransformVisitor : DiamondVisitor<SyntaxTree>, AbstractParseTreeVisitor<Sy
     override fun visitProgram(ctx: DiamondParser.ProgramContext): SyntaxTree {
         val namespace = visit(ctx.namespace) as NamespaceDeclaration
 
-        val elements = ctx.primaryDeclaration().map {
+        val elements = ctx.declarations.map {
             visit(it) as SyntaxTree
         }
 
@@ -14,16 +14,24 @@ class TransformVisitor : DiamondVisitor<SyntaxTree>, AbstractParseTreeVisitor<Sy
     }
 
     override fun visitNamespaceDeclaration(ctx: DiamondParser.NamespaceDeclarationContext): SyntaxTree {
-        println(ctx.id.text)
         return NamespaceDeclaration(ctx.id.text)
     }
 
     override fun visitEntryDeclaration(ctx: DiamondParser.EntryDeclarationContext): SyntaxTree {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val body = ctx.body.map {
+            visit(it)
+        }
+
+        return EntryDeclaration(body)
     }
 
     override fun visitPrimaryDeclaration(ctx: DiamondParser.PrimaryDeclarationContext): SyntaxTree {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return when (ctx.children.first()) {
+            is DiamondParser.FunctionDeclarationContext -> visit(ctx.functionDeclaration())
+            is DiamondParser.EntryDeclarationContext -> visit(ctx.entryDeclaration())
+            is DiamondParser.NamespaceDeclarationContext -> visit(ctx.namespaceDeclaration())
+            else -> throw Exception("unreachable")
+        }
     }
 
     override fun visitFunctionDeclaration(ctx: DiamondParser.FunctionDeclarationContext): SyntaxTree {

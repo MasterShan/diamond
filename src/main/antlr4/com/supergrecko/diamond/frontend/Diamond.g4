@@ -20,17 +20,18 @@ program
     ;
 
 // Declarations
+primaryDeclaration
+    : entryDeclaration
+    | functionDeclaration
+    | namespaceDeclaration // Illegal
+    ;
+
 namespaceDeclaration
     : NAMESPACE id=ID
     ;
 
 entryDeclaration
     : ENTRY LBRACE body+=genericStatement* RBRACE
-    ;
-
-primaryDeclaration
-    : entryDeclaration
-    | functionDeclaration
     ;
 
 functionDeclaration
