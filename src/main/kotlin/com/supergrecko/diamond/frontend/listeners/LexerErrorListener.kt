@@ -1,4 +1,4 @@
-package com.supergrecko.diamond.frontend
+package com.supergrecko.diamond.frontend.listeners
 
 import com.supergrecko.diamond.exceptions.CompilerException
 import org.antlr.v4.runtime.BaseErrorListener
