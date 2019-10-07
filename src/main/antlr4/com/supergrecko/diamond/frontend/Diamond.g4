@@ -1,7 +1,24 @@
 grammar Diamond;
 
+@lexer::members {
+    public void emit(Token token) {
+        switch (token.getType()) {
+            case UNKNOWN: {
+                Token t = _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex, getCharIndex()-1, _tokenStartLine, _tokenStartCharPositionInLine);
+
+                ANTLRErrorListener listener = getErrorListenerDispatch();
+		        listener.syntaxError(this, t, _tokenStartLine, _tokenStartCharPositionInLine, null, null);
+            }
+            default: {
+                Token t = _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex, getCharIndex()-1, _tokenStartLine, _tokenStartCharPositionInLine);
+                super.emit(t);
+            }
+        }
+    }
+}
+
 program
-    : namespaceDeclaration? declarations+=primaryDeclaration*
+    : namespace=namespaceDeclaration declarations+=primaryDeclaration*
     ;
 
 // Declarations
@@ -156,6 +173,6 @@ ID : [A-Za-z][A-Za-z0-9]+;
 
 fragment DIGIT : [0-9];
 
-COMMENT: '#' .*?-> skip;
+COMMENT: '#'.*? -> skip;
 WS: [ \n\t\r]+ -> skip;
-UNKNOWN : .;
+UNKNOWN: . ;
