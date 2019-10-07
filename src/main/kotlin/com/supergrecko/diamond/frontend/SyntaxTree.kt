@@ -1,8 +1,8 @@
-package com.supergrecko.diamond.ast
+package com.supergrecko.diamond.frontend
 
 sealed class SyntaxTree {
     // Variable for AST Printing
-    private val name = SyntaxTree::class.java.name
+    private val syntaxName = this::class.java.simpleName
 }
 
 data class IntLiteral(val value: Int) : SyntaxTree()
@@ -23,6 +23,7 @@ data class FunctionExpression(val types: List<SyntaxTree>, val parameters: List<
 data class IfExpression(val condition: SyntaxTree, val primary: List<SyntaxTree>, val secondary: SyntaxTree) : SyntaxTree()
 data class WhenExpression(val condition: SyntaxTree, val branches: List<SyntaxTree>, val fallback: SyntaxTree) : SyntaxTree()
 
+data class ProgramDeclaration(val namespace: SyntaxTree, val body: List<SyntaxTree>) : SyntaxTree()
 data class NamespaceDeclaration(val name: String) : SyntaxTree()
 data class EntryDeclaration(val body: List<SyntaxTree>) : SyntaxTree()
 data class FunctionDeclaration(val name: String, val types: List<SyntaxTree>, val parameters: List<SyntaxTree>, val body: List<SyntaxTree>, val returns: SyntaxTree) : SyntaxTree()

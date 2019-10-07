@@ -1,16 +1,21 @@
-package com.supergrecko.diamond.ast
+package com.supergrecko.diamond.frontend
 
-import com.supergrecko.diamond.frontend.DiamondParser
-import com.supergrecko.diamond.frontend.DiamondVisitor
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor
 
 class TransformVisitor : DiamondVisitor<SyntaxTree>, AbstractParseTreeVisitor<SyntaxTree>() {
     override fun visitProgram(ctx: DiamondParser.ProgramContext): SyntaxTree {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val namespace = visit(ctx.namespace) as NamespaceDeclaration
+
+        val elements = ctx.primaryDeclaration().map {
+            visit(it) as SyntaxTree
+        }
+
+        return ProgramDeclaration(namespace, elements)
     }
 
     override fun visitNamespaceDeclaration(ctx: DiamondParser.NamespaceDeclarationContext): SyntaxTree {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println(ctx.id.text)
+        return NamespaceDeclaration(ctx.id.text)
     }
 
     override fun visitEntryDeclaration(ctx: DiamondParser.EntryDeclarationContext): SyntaxTree {
